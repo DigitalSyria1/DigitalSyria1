@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رقميات سوريا | شحن رصيد</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+}
+header{
+    padding:25px;
+    text-align:center;
+}
+header h1{
+    margin:0;
+    font-size:28px;
+    color:#00e5ff;
+}
+section{
+    padding:20px;
+    max-width:800px;
+    margin:auto;
+}
+.card{
+    background:#1c1c1c;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+h2{
+    color:#00e5ff;
+}
+select,input,button{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+}
+button{
+    background:#00c853;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+button:hover{
+    background:#00a844;
+}
+.qr{
+    width:220px;
+    display:block;
+    margin:15px auto;
+    border-radius:15px;
+}
+.copyBtn{
+    background:#2962ff;
+}
+.copyBtn:hover{
+    background:#0039cb;
+}
+.downloadBtn{
+    background:#ff9800;
+}
+.downloadBtn:hover{
+    background:#e68900;
+}
+.whatsappBtn{
+    background:#25D366;
+}
+.whatsappBtn:hover{
+    background:#128C4A;
+}
+.footer{
+    text-align:center;
+    padding:20px;
+    font-size:14px;
+    background:#111;
+}
+.footer a{
+    color:#00e5ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* Popup Style */
+#paymentPopup{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.7);
+    z-index:1000;
+    justify-content:center;
+    align-items:center;
+}
+#paymentContent{
+    background:#1c1c1c;
+    padding:20px;
+    border-radius:15px;
+    width:90%;
+    max-width:400px;
+    position:relative;
+    text-align:center;
+}
+#closePopup{
+    position:absolute;
+    top:10px;
+    right:15px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    cursor:pointer;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>رقميات سوريا</h1>
+    <p>منصتك الآمنة لشحن رصيد سيرياتيل و MTN بسرعة وموثوقية</p>
+</header>
+
+<section>
+
+<div class="card">
+<h2>ماذا نقدم؟</h2>
+<p>
+نقدم خدمة شحن رصيد فوري لشبكتي سيرياتيل و MTN داخل سوريا،
+مع دعم الدفع عبر شام كاش بطريقة سهلة وآمنة.
+</p>
+</div>
+
+<div class="card">
+<h2>طريقة الشحن</h2>
+<p>
+1️⃣ اختر الشركة<br>
+2️⃣ أدخل رقم الهاتف<br>
+3️⃣ أدخل المبلغ المطلوب<br>
+4️⃣ اضغط إرسال لرؤية طريقة الدفع<br>
+5️⃣ بعد الدفع اضغط "لقد دفعت" لإرسال صورة التحويل
+</p>
+</div>
+
+<div class="card">
+<h2>تنفيذ طلب الشحن</h2>
+<select id="company">
+<option value="Syriatel">سيرياتيل</option>
+<option value="MTN">MTN</option>
+</select>
+
+<input type="tel" id="phone" placeholder="أدخل رقم الهاتف">
+<input type="number" id="amount" placeholder="أدخل المبلغ بالليرة السورية">
+
+<button class="whatsappBtn" onclick="showPaymentPopup()">إرسال</button>
+</div>
+
+</section>
+
+<!-- Popup -->
+<div id="paymentPopup">
+    <div id="paymentContent">
+        <button id="closePopup" onclick="closePopup()">×</button>
+        <h2>طريقة الدفع عبر شام كاش</h2>
+        <p>
+        يمكنك مسح رمز QR أو تحميله ثم الدفع،
+        أو نسخ رقم الحساب وتحويل المبلغ.
+        </p>
+        <p style="color:#00e5ff;font-weight:bold;">
+        يمكنك الدفع بالليرة السورية أو ما يقابله بالدولار.
+        </p>
+        <img id="qrImage" class="qr" src="https://i.postimg.cc/Wb7Z3wHP/IMG-20260303-021539-248.png">
+        <button class="downloadBtn" onclick="downloadQR()">تحميل صورة QR</button>
+        <p style="text-align:center;font-weight:bold;color:#00e5ff;">
+        أو انسخ رقم حساب شام كاش وادفع: 0a1e7cad072137d7655210d125241c9f
+        </p>
+        <p style="color:#00e5ff;font-weight:bold;">
+        يرجى إرسال صورة التحويل عبر واتساب
+        </p>
+        <button class="whatsappBtn" onclick="paidWhatsApp()">إرسال عبر واتساب</button>
+    </div>
+</div>
+
+<div class="footer">
+© 2026 رقميات سوريا - جميع الحقوق محفوظة <br><br>
+تابعنا على تلجرام:
+<a href="https://t.me/DigitalSyria1" target="_blank">DigitalSyria1</a>
+</div>
+
+<script>
+function showPaymentPopup(){
+    let company = document.getElementById("company").value;
+    let phone = document.getElementById("phone").value;
+    let amount = document.getElementById("amount").value;
+
+    if(phone=="" || amount=="" || amount <= 0){
+        alert("يرجى إدخال جميع البيانات بشكل صحيح");
+        return;
+    }
+    document.getElementById("paymentPopup").style.display = "flex";
+}
+
+function closePopup(){
+    document.getElementById("paymentPopup").style.display = "none";
+}
+
+function copyAccount(){
+    navigator.clipboard.writeText("0a1e7cad072137d7655210d125241c9f");
+    alert("تم نسخ رقم الحساب");
+}
+
+function downloadQR(){
+    let link = document.createElement("a");
+    link.href = document.getElementById("qrImage").src;
+    link.download = "ShamCash-QR.png";
+    link.click();
+}
+
+// فتح واتساب لإرسال صورة التحويل بعد الدفع مع رقمك والرسالة جاهزة
+function paidWhatsApp(){
+    let message = encodeURIComponent("السلام عليكم لقد دفعت لشحن الرصيد\nرقمي: +905375455359");
+    window.open("https://wa.me/905375455359?text=" + message, "_blank");
+}
+</script>
+
+</body>
+  </html>
